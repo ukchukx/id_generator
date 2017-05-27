@@ -1,0 +1,6 @@
+*
+!*.ex
+!*.py
+!*.java
+!*.php
+!.gitignore
