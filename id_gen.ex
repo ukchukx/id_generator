@@ -54,16 +54,4 @@ defmodule ID do
     {id, ""} = Integer.parse(id_str, 16)
     id
   end
-
-  def test_collisions(how_many) do
-    ids = Enum.reduce(1..how_many, [], fn _x, acc -> List.insert_at(acc, 0, generate(2)) end)
-    uniq = Stream.uniq ids
-    IO.puts "Id length is #{ids |> Enum.count }"
-    IO.puts "Unique length is #{uniq |> Enum.to_list |> Enum.count}"
-  end
-
-  def test_string_conversion() do
-    id = generate(2)
-    ^id = id |> __MODULE__.to_string() |> from_string()
-  end
 end
