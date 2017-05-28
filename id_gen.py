@@ -5,7 +5,8 @@ class IDGenerator(object):
   By including the creation time in the id, there's no need for a created_at column in the DB table.
   """
 
-  def generate(self, type_code):
+  @staticmethod
+  def generate(type_code):
     """
     Generate a 64-bit id.
     Type code is a 2-byte integer common to a resource type.
@@ -18,32 +19,35 @@ class IDGenerator(object):
 
     # Get the binary representation of the current timestamp (in milliseconds)
     # ...[2:] is to remove the '0b' Python tacks on
-    ts_bits = self.pad_bits(bin(floor(datetime.timestamp(datetime.utcnow()) * 1000))[2:], 48)
+    ts_bits = IDGenerator.pad_bits(bin(floor(datetime.timestamp(datetime.utcnow()) * 1000))[2:], 48)
 
     _uuid = bin(uuid4().fields[2])[2:] # Get the last 16-bits of the first 64-bit chunk
      # We're only interested in the last 8-bits
-    unused_bits = self.pad_bits(_uuid[7:]) if len(_uuid) == 15 else self.pad_bits(_uuid[8:])
+    unused_bits = IDGenerator.pad_bits(_uuid[7:]) if len(_uuid) == 15 else IDGenerator.pad_bits(_uuid[8:])
 
-    type_code_bits = self.pad_bits(bin(type_code)[2:])
+    type_code_bits = IDGenerator.pad_bits(bin(type_code)[2:])
 
     return int(type_code_bits + ts_bits + unused_bits, 2)
 
 
-  def to_string(self, id):
+  @staticmethod
+  def to_string(id):
     """
     Convert 64-bit to hex string.
     """
     return hex(id)[2:] # ...without '0x'
 
 
-  def from_string(self, bit_str):
+  @staticmethod
+  def from_string(bit_str):
     """
     Convert hex string to 64-bit id.
     """
     return int(bit_str, 16)
 
 
-  def pad_bits(self, bit_str, length=8):
+  @staticmethod
+  def pad_bits(bit_str, length=8):
     """
     Pad bit string with leading zeros. Be sure to remove '0b' from string
     """
