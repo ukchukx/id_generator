@@ -3,4 +3,5 @@
 !*.py
 !*.java
 !*.php
+!*.md
 !.gitignore
