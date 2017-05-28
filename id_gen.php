@@ -10,7 +10,7 @@ class IDGenerator {
 
   /**
    * Generate a 64-bit id.
-   * Type code is a 2-byte integer common to a resource type.
+   * Type code is a 1-byte integer common to a resource type.
    * E.g 10 for users, 20 for roles etc
    * @param $typeCode integer
    * @return integer
