@@ -12,21 +12,27 @@ defmodule ID do
   E.g 10 for users, 20 for roles etc
   """
   def generate(type_code) when is_integer(type_code) do 
-    <<_::56, unused::8>> = :crypto.strong_rand_bytes(8)
+    <<unused::8>> = :crypto.strong_rand_bytes(1) # Get a random byte
 
     ts_bits = 
-      DateTime.utc_now()
+      DateTime.utc_now
       |> DateTime.to_unix(:milliseconds) 
       |> Integer.to_string(2)
       |> pad_bits(48)
 
-    type_bits = type_code |> Integer.to_string(2) |> pad_bits()
+    type_bits =
+      type_code
+      |> Integer.to_string(2)
+      |> pad_bits
 
-    unused_bits = unused |> Integer.to_string(2) |> pad_bits()
+    unused_bits =
+      unused
+      |> Integer.to_string(2)
+      |> pad_bits
     
-    {id, ""} = "#{type_bits}#{ts_bits}#{unused_bits}" |> Integer.parse(2)
-
-    id
+    "#{type_bits}#{ts_bits}#{unused_bits}"
+    |> Integer.parse(2)
+    |> elem(0)
   end
 
   def pad_bits(bit_str, bit_length \\ 8) when is_binary(bit_str) do
@@ -44,14 +50,15 @@ defmodule ID do
   def to_string(id) when is_integer(id) do
     id 
     |> Integer.to_string(16)
-    |> String.downcase()
+    |> String.downcase
   end
   
   @doc """
   Convert hex string to 64-bit id.
   """
   def from_string(id_str) when is_binary(id_str) do
-    {id, ""} = Integer.parse(id_str, 16)
-    id
+    id_str
+    |> Integer.parse(16)
+    |> elem(0)
   end
 end
