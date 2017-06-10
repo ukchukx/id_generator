@@ -3,6 +3,6 @@
 !*.py
 !*.java
 !*.php
+!*.js
 !*.md
 !.gitignore
-!.gitattributes
