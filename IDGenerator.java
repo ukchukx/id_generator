@@ -6,7 +6,7 @@ import java.util.UUID;
  * By including the creation time in the id, there's no need for a created_at column in the DB table.
  * @author Uk
  */
-public class IDGenerator {
+public class ID {
 
   /**
    * Generate a 64-bit id.

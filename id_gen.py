@@ -1,4 +1,4 @@
-class IDGenerator(object):
+class ID(object):
   """
   Generate a 64-bit UUID having the format:
   type_code(8 bits)|timestamp(48 bits)|unused(8 bits)
