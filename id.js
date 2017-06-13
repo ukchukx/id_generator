@@ -1,4 +1,7 @@
 class ID {
+  /**
+  * This has not been tested. JS cannot represent 64-bit ints.
+  */
   generate(resourceType) {
     const typeBits = this.padBits(Number(resourceType).toString(2));
     const tsBits = this.padBits(new Date().getTime().toString(2), 48);
